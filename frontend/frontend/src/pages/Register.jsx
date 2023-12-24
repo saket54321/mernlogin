@@ -2,11 +2,16 @@ import React, { useState,useEffect } from 'react'
 import {Link,useNavigate} from 'react-router-dom'
 import axios from 'axios';
 import { useCookies } from "react-cookie";
+import { ToastContainer, toast } from "react-toastify";
 
 
 function Register() {
   const [cookies] = useCookies([]);
   const navigate=useNavigate();
+  const generateError = (error) =>
+    toast.error(error, {
+      position: "bottom-right",
+    });
   useEffect(() => {
     if (cookies.jwt) {
       navigate("/");
@@ -18,12 +23,22 @@ function Register() {
     e.preventDefault();
     try{
       //{ withCredentials: true } this is very importtant line in generating token 
-    const user=await axios.post('http://localhost:5000/register',values, { withCredentials: true });
-    console.log("rigster");
-    
-    navigate('/login');
-    
+    const {data}=await axios.post('http://localhost:5000/register',values, { withCredentials: true });
+    console.log(data);
+    if (data) {
+      if (data.errors) {
+        const { email, password } = data.errors;
+        if (email) generateError(email);
+        else if (password) generateError(password);
+      } else {
+        navigate("/");
+      }
     }
+  } 
+    
+    
+    
+    
     catch(error){
       console.log("data is not post");
     }
@@ -67,6 +82,7 @@ function Register() {
           Already an account?<Link to='/login'>login</Link>
         </span>
       </form>
+      <ToastContainer />
     </div>    
   )
 }

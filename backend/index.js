@@ -3,6 +3,8 @@ import cors from "cors"
 import mongoose from "mongoose";
 import router from "./Routes/login.route.js"
 import cookieparser from "cookie-parser";
+import bookrouter from "./Routes/book.route.js";
+
 const app=express();
 app.use(cors({
     origin:["http://localhost:3000"],
@@ -13,6 +15,7 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieparser());
 app.use('/',router);
+app.use('/books',bookrouter);
 
 mongoose.connect('mongodb+srv://saketmmfd1:saket12345@bookstore.7gs3ljx.mongodb.net/mern-login?retryWrites=true&w=majority')
 .then(()=>{

@@ -5,5 +5,6 @@ const router =express.Router();
 router.post('/register',usercontroller.register);
 router.post('/login',usercontroller.login);
 router.post('/',checkUser);
+router.put('/update',usercontroller.update);
 
 export default router;

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { redirectDocument, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import axios from "axios";
+import {Link} from "react-router-dom";
 
 function Secret() {
   const[email,setEmail]=useState("");
@@ -27,10 +28,12 @@ function Secret() {
           console.log(data.user);
           setEmail(data.user);
           //console.log(email);
+          navigate('./home');
           }
       }
     };
     verifyUser();
+    
   }, [cookies, navigate, removeCookie]);
 
   const logOut = async () => {
@@ -48,7 +51,7 @@ function Secret() {
 
   return (
     <div className="private">
-        <p>{email}</p>
+        <Link to='/home'>all books are here</Link>
         <button onClick={logOut}>Log out</button>
       </div>
   )
